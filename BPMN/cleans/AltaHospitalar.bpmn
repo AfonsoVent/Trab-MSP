@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Alta" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.29.0">
+  <bpmn:collaboration id="Collab_Alta">
+    <bpmn:participant id="P_CPS" name="Sistema CPS" processRef="Process_CPS" />
+    <bpmn:participant id="Participant_1fklug8" name="Administração" processRef="Process_1lj21s5" />
+    <bpmn:participant id="Participant_08olzlb" name="Idoso/Familia" processRef="Process_1fdog48" />
+    <bpmn:participant id="Participant_03j4vqd" name="Médico" processRef="Process_09079vj" />
+    <bpmn:participant id="Participant_0wc0cqo" name="Enfermeiro" processRef="Process_1er85rb" />
+    <bpmn:messageFlow id="M1" name="Decisão + relatório de alta" sourceRef="Event_1v5925k" targetRef="Start" />
+    <bpmn:messageFlow id="M2" name="Relatório final do idoso" sourceRef="T_PedAdm" targetRef="Participant_1fklug8" />
+    <bpmn:messageFlow id="M3" name="Pendências administrativas" sourceRef="Participant_1fklug8" targetRef="T_RecAdm" />
+    <bpmn:messageFlow id="M5" name="Lista de pendências" sourceRef="T_NotPend" targetRef="Participant_0wc0cqo" />
+    <bpmn:messageFlow id="M6" name="Pedido de atividades pré-alta" sourceRef="T_PedEnf" targetRef="Participant_0wc0cqo" />
+    <bpmn:messageFlow id="M7" name="Confirmação" sourceRef="Participant_0wc0cqo" targetRef="T_RecEnf" />
+    <bpmn:messageFlow id="M9" name="Documento assinado" sourceRef="Participant_03j4vqd" targetRef="T_RecAss" />
+    <bpmn:messageFlow id="M10" name="Receitas e recomendações" sourceRef="T_Receitas" targetRef="Participant_08olzlb" />
+    <bpmn:messageFlow id="M8" name="Documento de ALTA" sourceRef="T_PedAss" targetRef="Participant_03j4vqd" />
+    <bpmn:messageFlow id="M4" name="Lista de pendências" sourceRef="T_NotPend" targetRef="Participant_03j4vqd" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_CPS" isExecutable="false">
+    <bpmn:dataObjectReference id="DO_Rel" name="Relatório do Idoso" dataObjectRef="Obj_DO_Rel" />
+    <bpmn:dataObject id="Obj_DO_Rel" />
+    <bpmn:dataStoreReference id="DS_Proc1" name="Processo Clínico do Idoso" />
+    <bpmn:dataObjectReference id="DO_Alta" name="Documento de ALTA" dataObjectRef="Obj_DO_Alta" />
+    <bpmn:dataObject id="Obj_DO_Alta" />
+    <bpmn:dataStoreReference id="DS_Proc2" name="Processo Clínico do Idoso" />
+    <bpmn:startEvent id="Start" name="Decisão de Alta Recebida">
+      <bpmn:outgoing>F0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="T_VerClin" name="Verificar Pendências Clínicas, Exames e Medicação">
+      <bpmn:incoming>F0</bpmn:incoming>
+      <bpmn:outgoing>F1</bpmn:outgoing>
+      <bpmn:property id="Prop_T_VerClin" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DIA_T_VerClin_DO_Rel">
+        <bpmn:sourceRef>DO_Rel</bpmn:sourceRef>
+        <bpmn:targetRef>Prop_T_VerClin</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:dataInputAssociation id="DIA_T_VerClin_DS_Proc1">
+        <bpmn:sourceRef>DS_Proc1</bpmn:sourceRef>
+        <bpmn:targetRef>Prop_T_VerClin</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="T_PedAdm" name="Pedir Validação de Checkout à Administração">
+      <bpmn:incoming>F1</bpmn:incoming>
+      <bpmn:outgoing>F2</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="T_RecAdm" name="Receber Resultado da Validação">
+      <bpmn:incoming>F2</bpmn:incoming>
+      <bpmn:outgoing>F3</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:exclusiveGateway id="G_Pend" name="Pendências detetadas?">
+      <bpmn:incoming>F3</bpmn:incoming>
+      <bpmn:outgoing>F_Sim</bpmn:outgoing>
+      <bpmn:outgoing>F_Nao</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="T_NotPend" name="Notificar Médico e Enfermeiro das Pendências">
+      <bpmn:incoming>F_Sim</bpmn:incoming>
+      <bpmn:outgoing>F_Susp</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="E_Susp" name="Alta Suspensa">
+      <bpmn:incoming>F_Susp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="T_Estado" name="Atualizar Estado do Utente para ALTA">
+      <bpmn:incoming>F_Nao</bpmn:incoming>
+      <bpmn:outgoing>G0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="T_PedEnf" name="Notificar Enfermeiro: Executar Atividades Pré-Alta">
+      <bpmn:incoming>G0</bpmn:incoming>
+      <bpmn:outgoing>G1</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="T_RecEnf" name="Receber Confirmação das Atividades Pré-Alta">
+      <bpmn:incoming>G1</bpmn:incoming>
+      <bpmn:outgoing>G2</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:serviceTask id="T_GerDoc" name="Criação do Documento de ALTA">
+      <bpmn:incoming>G2</bpmn:incoming>
+      <bpmn:outgoing>G3</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DOA_T_GerDoc_DO_Alta">
+        <bpmn:targetRef>DO_Alta</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="T_PedAss" name="Enviar Documento de ALTA ao Médico para Assinatura">
+      <bpmn:incoming>G3</bpmn:incoming>
+      <bpmn:outgoing>G4</bpmn:outgoing>
+      <bpmn:property id="Prop_T_PedAss" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DIA_T_PedAss_DO_Alta">
+        <bpmn:sourceRef>DO_Alta</bpmn:sourceRef>
+        <bpmn:targetRef>Prop_T_PedAss</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="T_RecAss" name="Receber Documento de ALTA Assinado">
+      <bpmn:incoming>G4</bpmn:incoming>
+      <bpmn:outgoing>G5</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sendTask id="T_Receitas" name="Enviar Receitas e Recomendações ao Idoso">
+      <bpmn:incoming>G5</bpmn:incoming>
+      <bpmn:outgoing>G6</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:serviceTask id="T_Hist" name="Registar no Histórico do Idoso">
+      <bpmn:incoming>G6</bpmn:incoming>
+      <bpmn:outgoing>G7</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DOA_T_Hist_DS_Proc2">
+        <bpmn:targetRef>DS_Proc2</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="T_Arq" name="Arquivar Processo Clínico">
+      <bpmn:incoming>G7</bpmn:incoming>
+      <bpmn:outgoing>G8</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DOA_T_Arq_DS_Proc2">
+        <bpmn:targetRef>DS_Proc2</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="T_Desat" name="Desativar Caso Atual do Idoso">
+      <bpmn:incoming>G8</bpmn:incoming>
+      <bpmn:outgoing>G9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="E_Done" name="Checkout Concluído">
+      <bpmn:incoming>G9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F0" sourceRef="Start" targetRef="T_VerClin" />
+    <bpmn:sequenceFlow id="F1" sourceRef="T_VerClin" targetRef="T_PedAdm" />
+    <bpmn:sequenceFlow id="F2" sourceRef="T_PedAdm" targetRef="T_RecAdm" />
+    <bpmn:sequenceFlow id="F3" sourceRef="T_RecAdm" targetRef="G_Pend" />
+    <bpmn:sequenceFlow id="F_Sim" name="Sim" sourceRef="G_Pend" targetRef="T_NotPend" />
+    <bpmn:sequenceFlow id="F_Nao" name="Não" sourceRef="G_Pend" targetRef="T_Estado" />
+    <bpmn:sequenceFlow id="F_Susp" sourceRef="T_NotPend" targetRef="E_Susp" />
+    <bpmn:sequenceFlow id="G0" sourceRef="T_Estado" targetRef="T_PedEnf" />
+    <bpmn:sequenceFlow id="G1" sourceRef="T_PedEnf" targetRef="T_RecEnf" />
+    <bpmn:sequenceFlow id="G2" sourceRef="T_RecEnf" targetRef="T_GerDoc" />
+    <bpmn:sequenceFlow id="G3" sourceRef="T_GerDoc" targetRef="T_PedAss" />
+    <bpmn:sequenceFlow id="G4" sourceRef="T_PedAss" targetRef="T_RecAss" />
+    <bpmn:sequenceFlow id="G5" sourceRef="T_RecAss" targetRef="T_Receitas" />
+    <bpmn:sequenceFlow id="G6" sourceRef="T_Receitas" targetRef="T_Hist" />
+    <bpmn:sequenceFlow id="G7" sourceRef="T_Hist" targetRef="T_Arq" />
+    <bpmn:sequenceFlow id="G8" sourceRef="T_Arq" targetRef="T_Desat" />
+    <bpmn:sequenceFlow id="G9" sourceRef="T_Desat" targetRef="E_Done" />
+  </bpmn:process>
+  <bpmn:process id="Process_1lj21s5" />
+  <bpmn:process id="Process_1fdog48" />
+  <bpmn:process id="Process_09079vj">
+    <bpmn:intermediateThrowEvent id="Event_1v5925k">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1n0x3t2" />
+    </bpmn:intermediateThrowEvent>
+  </bpmn:process>
+  <bpmn:process id="Process_1er85rb" />
+  <bpmndi:BPMNDiagram id="Diagram_1">
+    <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Collab_Alta">
+      <bpmndi:BPMNShape id="P_CPS_di" bpmnElement="P_CPS" isHorizontal="true">
+        <dc:Bounds x="160" y="640" width="2470" height="400" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DO_Rel_di" bpmnElement="DO_Rel">
+        <dc:Bounds x="357" y="930" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="330" y="984" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DS_Proc1_di" bpmnElement="DS_Proc1">
+        <dc:Bounds x="493" y="930" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="476" y="984" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DO_Alta_di" bpmnElement="DO_Alta">
+        <dc:Bounds x="1557" y="930" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1539" y="984" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DS_Proc2_di" bpmnElement="DS_Proc2">
+        <dc:Bounds x="2150" y="930" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2134" y="984" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_di" bpmnElement="Start">
+        <dc:Bounds x="282" y="822" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="261" y="863" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_VerClin_di" bpmnElement="T_VerClin">
+        <dc:Bounds x="395" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_PedAdm_di" bpmnElement="T_PedAdm">
+        <dc:Bounds x="545" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_RecAdm_di" bpmnElement="T_RecAdm">
+        <dc:Bounds x="695" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G_Pend_di" bpmnElement="G_Pend" isMarkerVisible="true">
+        <dc:Bounds x="875" y="815" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="871" y="876" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_NotPend_di" bpmnElement="T_NotPend">
+        <dc:Bounds x="845" y="690" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Susp_di" bpmnElement="E_Susp">
+        <dc:Bounds x="1032" y="712" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1015" y="753" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Estado_di" bpmnElement="T_Estado">
+        <dc:Bounds x="995" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_PedEnf_di" bpmnElement="T_PedEnf">
+        <dc:Bounds x="1145" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_RecEnf_di" bpmnElement="T_RecEnf">
+        <dc:Bounds x="1295" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_GerDoc_di" bpmnElement="T_GerDoc">
+        <dc:Bounds x="1445" y="800" width="110" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_PedAss_di" bpmnElement="T_PedAss">
+        <dc:Bounds x="1595" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_RecAss_di" bpmnElement="T_RecAss">
+        <dc:Bounds x="1745" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Receitas_di" bpmnElement="T_Receitas">
+        <dc:Bounds x="1895" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Hist_di" bpmnElement="T_Hist">
+        <dc:Bounds x="2045" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Arq_di" bpmnElement="T_Arq">
+        <dc:Bounds x="2195" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Desat_di" bpmnElement="T_Desat">
+        <dc:Bounds x="2345" y="800" width="110" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Done_di" bpmnElement="E_Done">
+        <dc:Bounds x="2532" y="822" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2525" y="863" width="50" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F0_di" bpmnElement="F0">
+        <di:waypoint x="318" y="840" />
+        <di:waypoint x="395" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F1_di" bpmnElement="F1">
+        <di:waypoint x="505" y="840" />
+        <di:waypoint x="545" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F2_di" bpmnElement="F2">
+        <di:waypoint x="655" y="840" />
+        <di:waypoint x="695" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F3_di" bpmnElement="F3">
+        <di:waypoint x="805" y="840" />
+        <di:waypoint x="875" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_Sim_di" bpmnElement="F_Sim">
+        <di:waypoint x="900" y="815" />
+        <di:waypoint x="900" y="770" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="912" y="791" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_Nao_di" bpmnElement="F_Nao">
+        <di:waypoint x="925" y="840" />
+        <di:waypoint x="995" y="840" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="936" y="820" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_Susp_di" bpmnElement="F_Susp">
+        <di:waypoint x="955" y="730" />
+        <di:waypoint x="1032" y="730" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G0_di" bpmnElement="G0">
+        <di:waypoint x="1105" y="840" />
+        <di:waypoint x="1145" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G1_di" bpmnElement="G1">
+        <di:waypoint x="1255" y="840" />
+        <di:waypoint x="1295" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G2_di" bpmnElement="G2">
+        <di:waypoint x="1405" y="840" />
+        <di:waypoint x="1445" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G3_di" bpmnElement="G3">
+        <di:waypoint x="1555" y="840" />
+        <di:waypoint x="1595" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G4_di" bpmnElement="G4">
+        <di:waypoint x="1705" y="840" />
+        <di:waypoint x="1745" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G5_di" bpmnElement="G5">
+        <di:waypoint x="1855" y="840" />
+        <di:waypoint x="1895" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G6_di" bpmnElement="G6">
+        <di:waypoint x="2005" y="840" />
+        <di:waypoint x="2045" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G7_di" bpmnElement="G7">
+        <di:waypoint x="2155" y="840" />
+        <di:waypoint x="2195" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G8_di" bpmnElement="G8">
+        <di:waypoint x="2305" y="840" />
+        <di:waypoint x="2345" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="G9_di" bpmnElement="G9">
+        <di:waypoint x="2455" y="840" />
+        <di:waypoint x="2532" y="840" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1fklug8_di" bpmnElement="Participant_1fklug8" isHorizontal="true">
+        <dc:Bounds x="160" y="1040" width="2470" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_08olzlb_di" bpmnElement="Participant_08olzlb" isHorizontal="true">
+        <dc:Bounds x="160" y="1310" width="2470" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_03j4vqd_di" bpmnElement="Participant_03j4vqd" isHorizontal="true">
+        <dc:Bounds x="160" y="350" width="2470" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1v5925k_di" bpmnElement="Event_1v5925k">
+        <dc:Bounds x="282" y="562" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0wc0cqo_di" bpmnElement="Participant_0wc0cqo" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="2470" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DIA_T_VerClin_DO_Rel_di" bpmnElement="DIA_T_VerClin_DO_Rel">
+        <di:waypoint x="375" y="930" />
+        <di:waypoint x="405" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DIA_T_VerClin_DS_Proc1_di" bpmnElement="DIA_T_VerClin_DS_Proc1">
+        <di:waypoint x="517.5" y="930" />
+        <di:waypoint x="495" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DOA_T_GerDoc_DO_Alta_di" bpmnElement="DOA_T_GerDoc_DO_Alta">
+        <di:waypoint x="1545" y="880" />
+        <di:waypoint x="1575" y="930" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DIA_T_PedAss_DO_Alta_di" bpmnElement="DIA_T_PedAss_DO_Alta">
+        <di:waypoint x="1575" y="930" />
+        <di:waypoint x="1605" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DOA_T_Hist_DS_Proc2_di" bpmnElement="DOA_T_Hist_DS_Proc2">
+        <di:waypoint x="2145" y="880" />
+        <di:waypoint x="2175" y="930" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DOA_T_Arq_DS_Proc2_di" bpmnElement="DOA_T_Arq_DS_Proc2">
+        <di:waypoint x="2205" y="880" />
+        <di:waypoint x="2175" y="930" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M1_di" bpmnElement="M1">
+        <di:waypoint x="300" y="600" />
+        <di:waypoint x="300" y="822" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="253" y="526" width="93" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M2_di" bpmnElement="M2">
+        <di:waypoint x="600" y="880" />
+        <di:waypoint x="600" y="1040" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="598" y="956" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M3_di" bpmnElement="M3">
+        <di:waypoint x="750" y="1040" />
+        <di:waypoint x="750" y="880" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="753" y="946" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M4_di" bpmnElement="M4">
+        <di:waypoint x="860" y="690" />
+        <di:waypoint x="860" y="620" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="791" y="653" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M5_di" bpmnElement="M5">
+        <di:waypoint x="920" y="690" />
+        <di:waypoint x="920" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="921" y="445.99999999999994" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M6_di" bpmnElement="M6">
+        <di:waypoint x="1200" y="800" />
+        <di:waypoint x="1200" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1105" y="456" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M7_di" bpmnElement="M7">
+        <di:waypoint x="1350" y="350" />
+        <di:waypoint x="1350" y="800" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1363" y="463" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M8_di" bpmnElement="M8">
+        <di:waypoint x="1650" y="800" />
+        <di:waypoint x="1650" y="620" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1654" y="700" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M9_di" bpmnElement="M9">
+        <di:waypoint x="1800" y="620" />
+        <di:waypoint x="1800" y="800" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1801" y="676" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="M10_di" bpmnElement="M10">
+        <di:waypoint x="1950" y="880" />
+        <di:waypoint x="1950" y="1310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1960" y="1106.9999999999998" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
