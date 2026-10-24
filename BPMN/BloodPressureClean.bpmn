@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_0sm2e21">
     <bpmn:participant id="Participant_0ixgfy1" name="Dispositivo" processRef="Process_0nv97k5" />
     <bpmn:participant id="Participant_0hqgvqp" name="Idoso" processRef="Process_037sz82" />
-    <bpmn:participant id="Participant_06qpviq" name="Sistema Elderly Health" processRef="Process_0l88fy7" />
+    <bpmn:participant id="Participant_06qpviq" name="Sistema Elderly Health - Analisar Pressão Arterial" processRef="Process_0l88fy7" />
     <bpmn:participant id="Participant_0mvshoo" name="Enfermeiro" processRef="Process_03n7v7t" />
     <bpmn:messageFlow id="Flow_0mbnv7g" sourceRef="Event_0ikv8yb" targetRef="Participant_0hqgvqp" />
     <bpmn:messageFlow id="Flow_1ujzbgg" sourceRef="Event_0jg739b" targetRef="Participant_0hqgvqp" />
@@ -18,18 +18,11 @@
       <bpmn:incoming>Flow_06c4a4v</bpmn:incoming>
       <bpmn:outgoing>Flow_1e7y6fd</bpmn:outgoing>
       <bpmn:property id="Property_1hlhxqu" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0rzbpvv">
-        <bpmn:sourceRef>DataStoreReference_06w447f</bpmn:sourceRef>
-        <bpmn:targetRef>Property_1hlhxqu</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
       <bpmn:dataInputAssociation id="DataInputAssociation_1ocgjb7">
         <bpmn:sourceRef>DataObjectReference_00zy3f7</bpmn:sourceRef>
         <bpmn:targetRef>Property_1hlhxqu</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
-    <bpmn:dataObjectReference id="DataObjectReference_00zy3f7" name="pressão arterial do idoso" dataObjectRef="DataObject_1hoalmu" />
-    <bpmn:dataObject id="DataObject_1hoalmu" />
-    <bpmn:dataStoreReference id="DataStoreReference_06w447f" name="blood DS" />
     <bpmn:exclusiveGateway id="Gateway_1fixei1" name="Estado da Pressão?">
       <bpmn:incoming>Flow_1e7y6fd</bpmn:incoming>
       <bpmn:outgoing>Flow_05nwtul</bpmn:outgoing>
@@ -76,6 +69,12 @@
     <bpmn:dataObject id="DataObject_1331u03" />
     <bpmn:startEvent id="Event_0do2fdr" name="Recebe Notificação da Pressão Arterial Medida">
       <bpmn:outgoing>Flow_06c4a4v</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1sj1wl5">
+        <bpmn:targetRef>DataObjectReference_00zy3f7</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_13iaw67">
+        <bpmn:targetRef>DataStoreReference_06w447f</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
       <bpmn:messageEventDefinition id="MessageEventDefinition_18a6p80" />
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_06c4a4v" sourceRef="Event_0do2fdr" targetRef="Activity_0de7w88" />
@@ -87,6 +86,9 @@
     <bpmn:sequenceFlow id="Flow_1dfgi0q" sourceRef="Activity_1ha2p17" targetRef="Event_1xklk5z" />
     <bpmn:sequenceFlow id="Flow_096m42m" sourceRef="Event_1xklk5z" targetRef="Activity_1cjyigu" />
     <bpmn:sequenceFlow id="Flow_09018jw" sourceRef="Activity_1cjyigu" targetRef="Event_1my0t2v" />
+    <bpmn:dataStoreReference id="DataStoreReference_06w447f" name="blood DS" />
+    <bpmn:dataObjectReference id="DataObjectReference_00zy3f7" name="pressão arterial do idoso" dataObjectRef="DataObject_1hoalmu" />
+    <bpmn:dataObject id="DataObject_1hoalmu" />
   </bpmn:process>
   <bpmn:process id="Process_03n7v7t" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -99,10 +101,6 @@
         <dc:Bounds x="160" y="170" width="900" height="60" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Participant_0mvshoo_di" bpmnElement="Participant_0mvshoo" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="900" height="70" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_06qpviq_di" bpmnElement="Participant_06qpviq" isHorizontal="true">
         <dc:Bounds x="160" y="340" width="900" height="380" />
         <bpmndi:BPMNLabel />
@@ -110,18 +108,6 @@
       <bpmndi:BPMNShape id="Activity_0de7w88_di" bpmnElement="Activity_0de7w88">
         <dc:Bounds x="330" y="380" width="100" height="80" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_13dkoc7" bpmnElement="DataObjectReference_00zy3f7">
-        <dc:Bounds x="322" y="485" width="36" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="303" y="542" width="76" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataStoreReference_06w447f_di" bpmnElement="DataStoreReference_06w447f">
-        <dc:Bounds x="395" y="495" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="397" y="552" width="46" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1fixei1_di" bpmnElement="Gateway_1fixei1" isMarkerVisible="true">
         <dc:Bounds x="465" y="395" width="50" height="50" />
@@ -179,7 +165,19 @@
       <bpmndi:BPMNShape id="Event_1x782h3_di" bpmnElement="Event_0do2fdr">
         <dc:Bounds x="232" y="402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="211" y="445" width="79" height="53" />
+          <dc:Bounds x="210.5" y="447.5" width="79" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_06w447f_di" bpmnElement="DataStoreReference_06w447f">
+        <dc:Bounds x="220" y="525" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="222" y="582" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_13dkoc7" bpmnElement="DataObjectReference_00zy3f7">
+        <dc:Bounds x="342" y="485" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="323" y="542" width="77" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_06c4a4v_di" bpmnElement="Flow_06c4a4v">
@@ -229,6 +227,22 @@
         <di:waypoint x="950" y="420" />
         <di:waypoint x="992" y="420" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0mvshoo_di" bpmnElement="Participant_0mvshoo" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="900" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1ocgjb7_di" bpmnElement="DataInputAssociation_1ocgjb7">
+        <di:waypoint x="372" y="485" />
+        <di:waypoint x="389" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1denmly_di" bpmnElement="DataOutputAssociation_1denmly">
+        <di:waypoint x="641" y="570" />
+        <di:waypoint x="641" y="595" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_00kl2zb_di" bpmnElement="DataOutputAssociation_00kl2zb">
+        <di:waypoint x="899" y="460" />
+        <di:waypoint x="899" y="485" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0mbnv7g_di" bpmnElement="Flow_0mbnv7g">
         <di:waypoint x="565" y="622" />
         <di:waypoint x="565" y="230" />
@@ -245,25 +259,19 @@
         <di:waypoint x="790" y="150" />
         <di:waypoint x="790" y="402" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0rzbpvv_di" bpmnElement="DataInputAssociation_0rzbpvv">
-        <di:waypoint x="407" y="495" />
-        <di:waypoint x="390" y="460" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1ocgjb7_di" bpmnElement="DataInputAssociation_1ocgjb7">
-        <di:waypoint x="357" y="485" />
-        <di:waypoint x="380" y="460" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1denmly_di" bpmnElement="DataOutputAssociation_1denmly">
-        <di:waypoint x="641" y="570" />
-        <di:waypoint x="641" y="595" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_00kl2zb_di" bpmnElement="DataOutputAssociation_00kl2zb">
-        <di:waypoint x="899" y="460" />
-        <di:waypoint x="899" y="485" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0173xxf_di" bpmnElement="Flow_0173xxf">
         <di:waypoint x="250" y="320" />
         <di:waypoint x="250" y="402" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1sj1wl5_di" bpmnElement="DataOutputAssociation_1sj1wl5">
+        <di:waypoint x="264" y="431" />
+        <di:waypoint x="342" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_13iaw67_di" bpmnElement="DataOutputAssociation_13iaw67">
+        <di:waypoint x="232" y="420" />
+        <di:waypoint x="200" y="420" />
+        <di:waypoint x="200" y="545" />
+        <di:waypoint x="220" y="545" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

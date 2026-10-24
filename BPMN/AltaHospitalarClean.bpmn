@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Alta" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.29.0">
   <bpmn:collaboration id="Collab_Alta">
-    <bpmn:participant id="P_CPS" name="Sistema CPS" processRef="Process_CPS" />
+    <bpmn:participant id="P_CPS" name="Sistema Elderly Health - Dar Alta" processRef="Process_CPS" />
     <bpmn:participant id="Participant_1fklug8" name="Administração" processRef="Process_1lj21s5" />
     <bpmn:participant id="Participant_08olzlb" name="Idoso/Familia" processRef="Process_1fdog48" />
     <bpmn:participant id="Participant_03j4vqd" name="Enfermeiro" processRef="Process_09079vj" />
@@ -152,6 +152,7 @@
     <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Collab_Alta">
       <bpmndi:BPMNShape id="P_CPS_di" bpmnElement="P_CPS" isHorizontal="true">
         <dc:Bounds x="160" y="420" width="2470" height="400" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DO_Rel_di" bpmnElement="DO_Rel">
         <dc:Bounds x="357" y="710" width="36" height="50" />
@@ -334,16 +335,16 @@
         <di:waypoint x="2455" y="620" />
         <di:waypoint x="2532" y="620" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Participant_03j4vqd_di" bpmnElement="Participant_03j4vqd" isHorizontal="true">
-        <dc:Bounds x="160" y="310" width="2470" height="90" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1fklug8_di" bpmnElement="Participant_1fklug8" isHorizontal="true">
         <dc:Bounds x="160" y="190" width="2470" height="100" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_08olzlb_di" bpmnElement="Participant_08olzlb" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="2470" height="90" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_03j4vqd_di" bpmnElement="Participant_03j4vqd" isHorizontal="true">
+        <dc:Bounds x="160" y="310" width="2470" height="90" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DIA_T_VerClin_DO_Rel_di" bpmnElement="DIA_T_VerClin_DO_Rel">
@@ -353,6 +354,14 @@
       <bpmndi:BPMNEdge id="DIA_T_VerClin_DS_Proc1_di" bpmnElement="DIA_T_VerClin_DS_Proc1">
         <di:waypoint x="517.5" y="710" />
         <di:waypoint x="495" y="660" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_150bw0h_di" bpmnElement="DataOutputAssociation_150bw0h">
+        <di:waypoint x="750" y="660" />
+        <di:waypoint x="750" y="695" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_07vr6pl_di" bpmnElement="DataOutputAssociation_07vr6pl">
+        <di:waypoint x="1200" y="660" />
+        <di:waypoint x="1200" y="685" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DOA_T_GerDoc_DO_Alta_di" bpmnElement="DOA_T_GerDoc_DO_Alta">
         <di:waypoint x="1500" y="660" />
@@ -431,14 +440,6 @@
       <bpmndi:BPMNEdge id="Flow_1gyk74j_di" bpmnElement="Flow_1gyk74j">
         <di:waypoint x="300" y="400" />
         <di:waypoint x="300" y="602" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_150bw0h_di" bpmnElement="DataOutputAssociation_150bw0h">
-        <di:waypoint x="750" y="660" />
-        <di:waypoint x="750" y="695" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_07vr6pl_di" bpmnElement="DataOutputAssociation_07vr6pl">
-        <di:waypoint x="1200" y="660" />
-        <di:waypoint x="1200" y="685" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
