@@ -3,19 +3,17 @@
   <collaboration id="Collaboration_1k447m2">
     <participant id="Participant_0v75piy" name="Funcionário" processRef="Process_1" />
     <participant id="Participant_0hfuqec" name="Técnico" processRef="Process_189p1k6" />
-    <participant id="Participant_1heq1m6" name="Sistema ElderlyHealth" processRef="Process_0nyb4p8" />
+    <participant id="Participant_1heq1m6" name="Sistema ElderlyHealth - Pedido de Manutenção" processRef="Process_0nyb4p8" />
     <messageFlow id="Flow_1qdcau4" sourceRef="Activity_08df30d" targetRef="Participant_0v75piy" />
     <messageFlow id="Flow_1agh0gn" sourceRef="Participant_0v75piy" targetRef="Event_1p8b6m0" />
     <messageFlow id="Flow_1chp9by" sourceRef="Activity_0yt5l09" targetRef="Participant_0hfuqec" />
     <messageFlow id="Flow_0stcmnt" sourceRef="Participant_0hfuqec" targetRef="Event_0u04ehp" />
     <messageFlow id="Flow_0osuhu8" sourceRef="Participant_0hfuqec" targetRef="Event_1cvzlgq" />
+    <messageFlow id="Flow_0371q3h" sourceRef="Participant_0v75piy" targetRef="Event_09wi4yh" />
   </collaboration>
   <process id="Process_1" isExecutable="false" />
   <process id="Process_189p1k6" />
   <process id="Process_0nyb4p8">
-    <startEvent id="Event_09wi4yh" name="Começar Pedido de Manutenção">
-      <outgoing>Flow_181tl0r</outgoing>
-    </startEvent>
     <sendTask id="Activity_08df30d" name="Requisitar Informações sobre o Pedido">
       <incoming>Flow_181tl0r</incoming>
       <outgoing>Flow_1hof1x2</outgoing>
@@ -54,22 +52,18 @@
     <serviceTask id="Activity_1fg724b" name="Cancelar Pedido de Manutenção">
       <incoming>Flow_0votadz</incoming>
       <outgoing>Flow_1a5iuhs</outgoing>
-      <property id="Property_0e5rhv6" name="__targetRef_placeholder" />
-      <dataInputAssociation id="DataInputAssociation_1hh8jr7">
-        <sourceRef>DataObjectReference_01u8uph</sourceRef>
-        <targetRef>Property_0e5rhv6</targetRef>
-      </dataInputAssociation>
+      <dataOutputAssociation id="DataOutputAssociation_0qph5mg">
+        <targetRef>DataObjectReference_01u8uph</targetRef>
+      </dataOutputAssociation>
     </serviceTask>
     <serviceTask id="Activity_1nvwti8" name="Atualizar Estado do Pedido de Manutenção">
       <incoming>Flow_1krnz5q</incoming>
       <outgoing>Flow_0kcdln8</outgoing>
-      <property id="Property_18ohurp" name="__targetRef_placeholder" />
-      <dataInputAssociation id="DataInputAssociation_1w6dfgz">
-        <sourceRef>DataObjectReference_01u8uph</sourceRef>
-        <targetRef>Property_18ohurp</targetRef>
-      </dataInputAssociation>
       <dataOutputAssociation id="DataOutputAssociation_0zod1gp">
         <targetRef>DataObjectReference_05u03ki</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation id="DataOutputAssociation_06zczlg">
+        <targetRef>DataObjectReference_01u8uph</targetRef>
       </dataOutputAssociation>
     </serviceTask>
     <endEvent id="Event_10n9uuq" name="Manutenção Tratada">
@@ -96,6 +90,10 @@
     <sequenceFlow id="Flow_0kcdln8" sourceRef="Activity_1nvwti8" targetRef="Event_0npc9s5" />
     <sequenceFlow id="Flow_1a5iuhs" sourceRef="Activity_1fg724b" targetRef="Event_10n9uuq" />
     <sequenceFlow id="Flow_1krnz5q" sourceRef="Event_0u04ehp" targetRef="Activity_1nvwti8" />
+    <startEvent id="Event_09wi4yh" name="Começar Pedido de Manutenção">
+      <outgoing>Flow_181tl0r</outgoing>
+      <messageEventDefinition id="MessageEventDefinition_0u5fbqj" />
+    </startEvent>
   </process>
   <bpmndi:BPMNDiagram id="BpmnDiagram_1">
     <bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Collaboration_1k447m2">
@@ -110,12 +108,6 @@
       <bpmndi:BPMNShape id="Participant_1heq1m6_di" bpmnElement="Participant_1heq1m6" isHorizontal="true">
         <omgdc:Bounds x="160" y="300" width="1218" height="360" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_09wi4yh_di" bpmnElement="Event_09wi4yh">
-        <omgdc:Bounds x="212" y="352" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="190" y="395" width="82" height="27" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1mzgunl_di" bpmnElement="Activity_08df30d">
         <omgdc:Bounds x="300" y="330" width="100" height="80" />
@@ -185,6 +177,12 @@
           <omgdc:Bounds x="907" y="505" width="86" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tliu13_di" bpmnElement="Event_09wi4yh">
+        <omgdc:Bounds x="212" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="190" y="395" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_181tl0r_di" bpmnElement="Flow_181tl0r">
         <omgdi:waypoint x="248" y="370" />
         <omgdi:waypoint x="300" y="370" />
@@ -218,12 +216,6 @@
         <omgdi:waypoint x="1018" y="370" />
         <omgdi:waypoint x="1090" y="370" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1krnz5q_di" bpmnElement="Flow_1krnz5q">
-        <omgdi:waypoint x="968" y="480" />
-        <omgdi:waypoint x="1054" y="480" />
-        <omgdi:waypoint x="1054" y="580" />
-        <omgdi:waypoint x="1090" y="580" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0kcdln8_di" bpmnElement="Flow_0kcdln8">
         <omgdi:waypoint x="1190" y="580" />
         <omgdi:waypoint x="1262" y="580" />
@@ -232,17 +224,15 @@
         <omgdi:waypoint x="1190" y="370" />
         <omgdi:waypoint x="1262" y="370" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1krnz5q_di" bpmnElement="Flow_1krnz5q">
+        <omgdi:waypoint x="968" y="480" />
+        <omgdi:waypoint x="1054" y="480" />
+        <omgdi:waypoint x="1054" y="580" />
+        <omgdi:waypoint x="1090" y="580" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0dwpj08_di" bpmnElement="DataOutputAssociation_0dwpj08">
         <omgdi:waypoint x="590" y="410" />
         <omgdi:waypoint x="590" y="445" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1hh8jr7_di" bpmnElement="DataInputAssociation_1hh8jr7">
-        <omgdi:waypoint x="1140" y="435" />
-        <omgdi:waypoint x="1140" y="410" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1w6dfgz_di" bpmnElement="DataInputAssociation_1w6dfgz">
-        <omgdi:waypoint x="1140" y="485" />
-        <omgdi:waypoint x="1140" y="540" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0zod1gp_di" bpmnElement="DataOutputAssociation_0zod1gp">
         <omgdi:waypoint x="1183" y="541" />
@@ -267,6 +257,18 @@
       <bpmndi:BPMNEdge id="Flow_0osuhu8_di" bpmnElement="Flow_0osuhu8">
         <omgdi:waypoint x="1000" y="160" />
         <omgdi:waypoint x="1000" y="352" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0qph5mg_di" bpmnElement="DataOutputAssociation_0qph5mg">
+        <omgdi:waypoint x="1139" y="410" />
+        <omgdi:waypoint x="1138" y="435" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_06zczlg_di" bpmnElement="DataOutputAssociation_06zczlg">
+        <omgdi:waypoint x="1141" y="540" />
+        <omgdi:waypoint x="1142" y="485" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0371q3h_di" bpmnElement="Flow_0371q3h">
+        <omgdi:waypoint x="230" y="280" />
+        <omgdi:waypoint x="230" y="352" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
