@@ -2,7 +2,7 @@ package pt.unl.fct.msp.elderlyhealth.service;
 
 import java.util.Set;
 
-/** Validações usadas pelo CPS (NIF português e telefone português). */
+//Validar dados
 public final class ValidadorDados {
 
     private static final Set<String> PREFIXOS_NIF_DOIS_DIGITOS = Set.of("45", "70", "71", "72", "74", "75", "77", "79");
@@ -15,7 +15,7 @@ public final class ValidadorDados {
         return valor == null ? "" : valor.replaceAll("[\\s.-]", "");
     }
 
-    /** NIF: 9 dígitos, prefixo válido e dígito de controlo (módulo 11). */
+    //Validar NIF
     public static boolean nifValido(String nifBruto) {
         String nif = normalizar(nifBruto);
         if (!nif.matches("\\d{9}")) {
@@ -35,7 +35,7 @@ public final class ValidadorDados {
         return controlo == nif.charAt(8) - '0';
     }
 
-    /** Telefone português: móvel (91/92/93/96) ou fixo (2x), com ou sem +351. */
+    //Validar número de telefone
     public static boolean telefoneValido(String telefoneBruto) {
         String tel = normalizar(telefoneBruto);
         if (tel.startsWith("+351")) {

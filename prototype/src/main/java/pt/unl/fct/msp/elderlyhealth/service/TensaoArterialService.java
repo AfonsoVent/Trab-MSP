@@ -12,15 +12,10 @@ import pt.unl.fct.msp.elderlyhealth.model.Idoso;
 import pt.unl.fct.msp.elderlyhealth.model.MedicaoTensao;
 import pt.unl.fct.msp.elderlyhealth.repository.MedicaoTensaoRepository;
 
-/**
- * Subprocesso BPMN "Monitorizar tensão arterial":
- * receber medição do dispositivo -> guardar -> analisar -> gateway "Estado da pressão?"
- * (OK -> notificar idoso | Alerta não grave -> gerar relatório de cuidados | Alerta grave -> notificar enfermeiro).
- */
+//Monitorizar tensao arterial
 @Service
 public class TensaoArterialService {
 
-    // Limiares do protótipo (mmHg) — a validar com a equipa / requisitos
     static final int SISTOLICA_GRAVE_ALTA = 180;
     static final int DIASTOLICA_GRAVE_ALTA = 120;
     static final int SISTOLICA_GRAVE_BAIXA = 80;
@@ -97,7 +92,7 @@ public class TensaoArterialService {
         return medicoes.filtrar(m -> m.getIdosoId().equals(idosoId));
     }
 
-    /** Service task "Gerar relatório de cuidados". */
+    //Gerar relatório de cuidados
     private static List<String> gerarRelatorioCuidados(int sistolica, int diastolica) {
         if (sistolica < SISTOLICA_BAIXA || diastolica < DIASTOLICA_BAIXA) {
             return List.of("Beber água", "Levantar-se devagar", "Repetir a medição dentro de 30 minutos");
