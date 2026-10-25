@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="sid-38422fae-e03e-43a3-bef4-bd33b32041b2" targetNamespace="http://bpmn.io/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.29.0">
   <collaboration id="Collaboration_19jsas3">
-    <participant id="Participant_1qlpjxf" name="Desligar Fogão Automáticamente" processRef="Process_1" />
+    <participant id="Participant_1qlpjxf" name="Sistema Elderly Health - Desligar Fogão Automáticamente" processRef="Process_1" />
     <participant id="Participant_10epxq3" name="Segurança" processRef="Process_0vy1vpr" />
     <participant id="Participant_0q0i2ty" name="Idoso" processRef="Process_0yb3ri6" />
     <messageFlow id="Flow_0n3z5s9" sourceRef="Activity_10nxgzt" targetRef="Participant_10epxq3" />
     <messageFlow id="Flow_0mhtdc2" sourceRef="Participant_10epxq3" targetRef="Activity_18ezebd" />
-    <messageFlow id="Flow_11tfw86" sourceRef="Participant_0q0i2ty" targetRef="StartEvent_1y45yut" />
   </collaboration>
   <process id="Process_1" isExecutable="false">
-    <startEvent id="StartEvent_1y45yut" name="Fogão ligado">
-      <outgoing>Flow_1l9uzzk</outgoing>
-    </startEvent>
     <exclusiveGateway id="Gateway_0d9zlj1" name="O fogão tem algum utensilio em cima?">
       <incoming>Flow_1l9uzzk</incoming>
       <outgoing>Flow_025qukw</outgoing>
@@ -80,6 +76,10 @@
     <sequenceFlow id="Flow_0bjjuqg" sourceRef="Gateway_182ipsh" targetRef="Event_02rgg13" />
     <sequenceFlow id="Flow_1b8jday" sourceRef="Gateway_182ipsh" targetRef="Event_04o9tph" />
     <sequenceFlow id="Flow_0aq5qaj" sourceRef="Event_04o9tph" targetRef="Event_0u4rstt" />
+    <startEvent id="StartEvent_1y45yut" name="Fogão ligado">
+      <outgoing>Flow_1l9uzzk</outgoing>
+      <signalEventDefinition id="SignalEventDefinition_1i19b53" />
+    </startEvent>
   </process>
   <process id="Process_0vy1vpr" isExecutable="false" />
   <process id="Process_0yb3ri6" isExecutable="false" />
@@ -88,12 +88,6 @@
       <bpmndi:BPMNShape id="Participant_1qlpjxf_di" bpmnElement="Participant_1qlpjxf" isHorizontal="true">
         <omgdc:Bounds x="160" y="380" width="1268" height="358" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_1y45yut_di" bpmnElement="StartEvent_1y45yut">
-        <omgdc:Bounds x="232" y="422" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="219" y="465" width="64" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0d9zlj1_di" bpmnElement="Gateway_0d9zlj1" isMarkerVisible="true">
         <omgdc:Bounds x="325" y="415" width="50" height="50" />
@@ -152,6 +146,12 @@
         <omgdc:Bounds x="832" y="642" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <omgdc:Bounds x="810" y="685" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0069djm_di" bpmnElement="StartEvent_1y45yut">
+        <omgdc:Bounds x="232" y="422" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="219" y="465" width="64" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1l9uzzk_di" bpmnElement="Flow_1l9uzzk">
@@ -229,10 +229,6 @@
       <bpmndi:BPMNEdge id="Flow_0mhtdc2_di" bpmnElement="Flow_0mhtdc2">
         <omgdi:waypoint x="1170" y="200" />
         <omgdi:waypoint x="1170" y="400" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_11tfw86_di" bpmnElement="Flow_11tfw86">
-        <omgdi:waypoint x="250" y="350" />
-        <omgdi:waypoint x="250" y="422" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

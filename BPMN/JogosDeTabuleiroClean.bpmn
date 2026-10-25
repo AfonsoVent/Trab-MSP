@@ -2,7 +2,7 @@
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0kcbfg0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.29.0">
   <bpmn:collaboration id="Collaboration_0g64bv8">
     <bpmn:participant id="Participant_12rs9m1" name="User" processRef="Process_047rzje" />
-    <bpmn:participant id="Participant_10wwb9v" name="Jogos De Tabuleiro" processRef="Process_09n4vc7" />
+    <bpmn:participant id="Participant_10wwb9v" name="Sismtema Elderly Health - Jogos De Tabuleiro" processRef="Process_09n4vc7" />
     <bpmn:participant id="Participant_0scemrw" name="Administrador" processRef="Process_081fsfn" />
     <bpmn:messageFlow id="Flow_0z8jit1" sourceRef="Participant_12rs9m1" targetRef="Event_0w90rpu" />
     <bpmn:messageFlow id="Flow_080ff2e" sourceRef="Participant_12rs9m1" targetRef="Event_0dxls3e" />
@@ -20,9 +20,11 @@
     <bpmn:serviceTask id="Activity_0igzor1" name="Obter Catálogo de Jogos">
       <bpmn:incoming>Flow_1mur0kl</bpmn:incoming>
       <bpmn:outgoing>Flow_0e0g9jz</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0rz8b3z">
-        <bpmn:targetRef>DataStoreReference_0gmhw9m</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
+      <bpmn:property id="Property_01m9xr0" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_07hrjgj">
+        <bpmn:sourceRef>DataStoreReference_0gmhw9m</bpmn:sourceRef>
+        <bpmn:targetRef>Property_01m9xr0</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Gateway_1lr4184" name="Como esta o Estado?">
       <bpmn:incoming>Flow_01riyl7</bpmn:incoming>
@@ -90,8 +92,6 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1mq5ss1" />
     </bpmn:startEvent>
     <bpmn:dataStoreReference id="DataStoreReference_0gmhw9m" name="Catálogo de Jogos" />
-    <bpmn:dataObjectReference id="DataObjectReference_1x4rg5z" name="Atribuir User ao Jogo de Tabuleiro" dataObjectRef="DataObject_08cccs3" />
-    <bpmn:dataObject id="DataObject_08cccs3" />
     <bpmn:sequenceFlow id="Flow_0xqsh6d" sourceRef="Activity_1vhuti4" targetRef="Event_1kh1v7d" />
     <bpmn:sendTask id="Activity_0khjlh4" name="Notificar Administrador">
       <bpmn:incoming>Flow_04kgidh</bpmn:incoming>
@@ -105,7 +105,6 @@
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_04kgidh" sourceRef="Activity_1vkkx2h" targetRef="Activity_0khjlh4" />
-    <bpmn:dataStoreReference id="DataStoreReference_0ityg9y" name="Lista de Desejos de Jogos de Tabuleiro" />
     <bpmn:endEvent id="Event_1kh1v7d" name="Jogo Não Requisitado">
       <bpmn:incoming>Flow_0xqsh6d</bpmn:incoming>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_1i8iwak" />
@@ -122,6 +121,9 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1y7xc1f" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1mur0kl" sourceRef="Event_1b0z88v" targetRef="Activity_0igzor1" />
+    <bpmn:dataStoreReference id="DataStoreReference_0ityg9y" name="Lista de Desejos de Jogos de Tabuleiro" />
+    <bpmn:dataObjectReference id="DataObjectReference_1x4rg5z" name="Atribuir User ao Jogo de Tabuleiro" dataObjectRef="DataObject_08cccs3" />
+    <bpmn:dataObject id="DataObject_08cccs3" />
   </bpmn:process>
   <bpmn:process id="Process_081fsfn" isExecutable="false" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -201,23 +203,11 @@
           <dc:Bounds x="570" y="532" width="60" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_1x4rg5z_di" bpmnElement="DataObjectReference_1x4rg5z">
-        <dc:Bounds x="1102" y="275" width="36" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1077" y="332" width="87" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1bao4cc_di" bpmnElement="Activity_0khjlh4">
         <dc:Bounds x="1280" y="680" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0zgyuco_di" bpmnElement="Activity_1vkkx2h">
         <dc:Bounds x="1150" y="680" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataStoreReference_0ityg9y_di" bpmnElement="DataStoreReference_0ityg9y">
-        <dc:Bounds x="1185" y="775" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1169" y="832" width="82" height="40" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0azp41e_di" bpmnElement="Event_1kh1v7d">
         <dc:Bounds x="1162" y="482" width="36" height="36" />
@@ -232,6 +222,18 @@
         <dc:Bounds x="462" y="372" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="441" y="415" width="79" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0ityg9y_di" bpmnElement="DataStoreReference_0ityg9y">
+        <dc:Bounds x="1295" y="775" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1279" y="832" width="82" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_1x4rg5z_di" bpmnElement="DataObjectReference_1x4rg5z">
+        <dc:Bounds x="1122" y="275" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1096" y="326" width="88" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0e0g9jz_di" bpmnElement="Flow_0e0g9jz">
@@ -324,6 +326,16 @@
         <dc:Bounds x="160" y="70" width="1350" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_150twn4_di" bpmnElement="DataOutputAssociation_150twn4">
+        <di:waypoint x="1058" y="350" />
+        <di:waypoint x="1080" y="299" />
+        <di:waypoint x="1122" y="299" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1va55xo_di" bpmnElement="DataOutputAssociation_1va55xo">
+        <di:waypoint x="1200" y="760" />
+        <di:waypoint x="1200" y="800" />
+        <di:waypoint x="1295" y="800" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0z8jit1_di" bpmnElement="Flow_0z8jit1">
         <di:waypoint x="240" y="250" />
         <di:waypoint x="240" y="372" />
@@ -356,18 +368,6 @@
         <di:waypoint x="950" y="570" />
         <di:waypoint x="950" y="250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0rz8b3z_di" bpmnElement="DataOutputAssociation_0rz8b3z">
-        <di:waypoint x="600" y="430" />
-        <di:waypoint x="600" y="475" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_150twn4_di" bpmnElement="DataOutputAssociation_150twn4">
-        <di:waypoint x="1076" y="350" />
-        <di:waypoint x="1102" y="320" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1va55xo_di" bpmnElement="DataOutputAssociation_1va55xo">
-        <di:waypoint x="1205" y="760" />
-        <di:waypoint x="1207" y="775" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0pc2yj3_di" bpmnElement="Flow_0pc2yj3">
         <di:waypoint x="360" y="350" />
         <di:waypoint x="360" y="250" />
@@ -375,6 +375,10 @@
       <bpmndi:BPMNEdge id="Flow_1a89lzd_di" bpmnElement="Flow_1a89lzd">
         <di:waypoint x="480" y="250" />
         <di:waypoint x="480" y="372" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_07hrjgj_di" bpmnElement="DataInputAssociation_07hrjgj">
+        <di:waypoint x="600" y="475" />
+        <di:waypoint x="600" y="430" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
