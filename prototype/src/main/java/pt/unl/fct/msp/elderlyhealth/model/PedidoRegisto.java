@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Instância do subprocesso 'Registar conta do idoso'. */
+//Registar conta idoso
 public class PedidoRegisto implements Entidade {
 
     private Long id;

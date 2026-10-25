@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Mensagem enviada pelo CPS a um participante (message flow do BPMN). */
+//Notificacões enviadas
 public class Notificacao implements Entidade {
 
     private Long id;

@@ -20,7 +20,7 @@ import pt.unl.fct.msp.elderlyhealth.model.AlertaQueda;
 import pt.unl.fct.msp.elderlyhealth.model.EstadoQueda;
 import pt.unl.fct.msp.elderlyhealth.service.DetecaoQuedaService;
 
-/** Feature básica 3 — Detect fall. */
+//Detetar queda
 @RestController
 @RequestMapping("/api/quedas")
 public class DetecaoQuedaController {
@@ -31,20 +31,20 @@ public class DetecaoQuedaController {
         this.servico = servico;
     }
 
-    /** Chamado pelo sensor: "Queda detetada pelo sensor". */
+    //Sensor deteta queda
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AlertaQueda registarQueda(@Valid @RequestBody QuedaDetetadaRequest pedido) {
         return servico.registarQueda(pedido.idosoId(), pedido.sensorId());
     }
 
-    /** "Resposta do idoso" (sim / não). */
+    //REsposta do idoso
     @PostMapping("/{id}/resposta")
     public AlertaQueda responder(@PathVariable Long id, @Valid @RequestBody RespostaIdosoRequest resposta) {
         return servico.responder(id, resposta.precisaAjuda());
     }
 
-    /** "Receber relatório de atendimento" -> "Registar incidente". */
+    //Registar incidente
     @PostMapping("/{id}/relatorio")
     public AlertaQueda registarRelatorio(@PathVariable Long id,
                                          @Valid @RequestBody RelatorioAtendimentoRequest relatorio) {
@@ -56,7 +56,7 @@ public class DetecaoQuedaController {
         return servico.obter(id);
     }
 
-    /** Painel da enfermagem: GET /api/quedas?estado=ENFERMEIRO_ALERTADO */
+    //Listar quedas
     @GetMapping
     public List<AlertaQueda> listar(@RequestParam(required = false) EstadoQueda estado) {
         return servico.listar(estado);

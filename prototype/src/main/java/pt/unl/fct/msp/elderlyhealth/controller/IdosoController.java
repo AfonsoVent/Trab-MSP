@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.msp.elderlyhealth.model.Idoso;
 import pt.unl.fct.msp.elderlyhealth.service.IdosoService;
 
-/** Consulta das contas criadas pelo registo (apoio ao front-end). */
+//Consultar contas
 @RestController
 @RequestMapping("/api/idosos")
 public class IdosoController {

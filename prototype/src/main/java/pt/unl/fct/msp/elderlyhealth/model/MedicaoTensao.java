@@ -5,7 +5,7 @@ import java.util.List;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Medição enviada pelo dispositivo e classificada pelo CPS. */
+//Medicacao registada
 public class MedicaoTensao implements Entidade {
 
     private Long id;

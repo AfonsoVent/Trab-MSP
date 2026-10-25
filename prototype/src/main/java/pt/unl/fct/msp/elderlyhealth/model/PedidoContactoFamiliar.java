@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Instância do subprocesso 'Adicionar contacto familiar'. */
+//Adicionar contacto familiar
 public class PedidoContactoFamiliar implements Entidade {
 
     private Long id;

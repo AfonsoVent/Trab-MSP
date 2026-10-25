@@ -13,7 +13,7 @@ import pt.unl.fct.msp.elderlyhealth.model.Idoso;
 import pt.unl.fct.msp.elderlyhealth.model.Preferencias;
 import pt.unl.fct.msp.elderlyhealth.repository.IdosoRepository;
 
-/** Idoso de demonstração (id 1) para testar contactos, quedas e tensão sem ter de registar primeiro. */
+//Idoso default
 @Component
 @ConditionalOnProperty(name = "elderlyhealth.dados-demo", havingValue = "true", matchIfMissing = true)
 public class DadosIniciais implements CommandLineRunner {

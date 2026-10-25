@@ -18,7 +18,7 @@ import pt.unl.fct.msp.elderlyhealth.model.DadosContactoFamiliar;
 import pt.unl.fct.msp.elderlyhealth.model.PedidoContactoFamiliar;
 import pt.unl.fct.msp.elderlyhealth.service.ContactoFamiliarService;
 
-/** Feature básica 2 — Add family contacts. */
+//Adicionar contactos de familia
 @RestController
 @RequestMapping("/api/idosos/{idosoId}/contactos-familiares")
 public class ContactoFamiliarController {
@@ -29,7 +29,7 @@ public class ContactoFamiliarController {
         this.servico = servico;
     }
 
-    /** "Contacto familiar" recebido -> validar -> pedir confirmação ao utilizador (202: fica à espera). */
+    //Pedir contacto a familiar
     @PostMapping("/pedidos")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public PedidoContactoFamiliar pedirAdicao(@PathVariable Long idosoId,
@@ -37,7 +37,7 @@ public class ContactoFamiliarController {
         return servico.pedirAdicao(idosoId, dados);
     }
 
-    /** "Receber confirmação" (tem de chegar antes do timer de 1 minuto). */
+    //Receber confirmacao de contacto
     @PostMapping("/pedidos/{pedidoId}/confirmacao")
     public PedidoContactoFamiliar confirmar(@PathVariable Long idosoId, @PathVariable Long pedidoId,
                                             @Valid @RequestBody ConfirmacaoRequest confirmacao) {

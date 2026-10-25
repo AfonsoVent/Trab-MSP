@@ -20,7 +20,7 @@ import pt.unl.fct.msp.elderlyhealth.model.PedidoRegisto;
 import pt.unl.fct.msp.elderlyhealth.model.Preferencias;
 import pt.unl.fct.msp.elderlyhealth.service.RegistoContaService;
 
-/** Feature básica 1 — Register elder's account. */
+//Registar idoso
 @RestController
 @RequestMapping("/api/registos")
 public class RegistoContaController {
@@ -31,26 +31,26 @@ public class RegistoContaController {
         this.servico = servico;
     }
 
-    /** Início: "Pedido de registo" (corpo opcional: {"canal": "ONLINE|FAMILIAR|RECEPCIONISTA"}). */
+    //Iniciar registo
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PedidoRegisto iniciar(@RequestBody(required = false) IniciarRegistoRequest pedido) {
         return servico.iniciar(pedido == null ? null : pedido.canal());
     }
 
-    /** "Receber os dados requisitados" -> validar NIF. */
+    //Submeter dados pedidos
     @PutMapping("/{id}/dados")
     public PedidoRegisto submeterDados(@PathVariable Long id, @Valid @RequestBody DadosIdoso dados) {
         return servico.submeterDados(id, dados);
     }
 
-    /** "Receber os dados de preferências". */
+    //Submeter preferências
     @PutMapping("/{id}/preferencias")
     public PedidoRegisto submeterPreferencias(@PathVariable Long id, @RequestBody Preferencias preferencias) {
         return servico.submeterPreferencias(id, preferencias);
     }
 
-    /** "Receber o contacto de emergência" -> validar. */
+    //Submeter contacto de emergência
     @PutMapping("/{id}/contacto-emergencia")
     public PedidoRegisto submeterContactoEmergencia(@PathVariable Long id,
                                                     @Valid @RequestBody ContactoEmergencia contacto) {

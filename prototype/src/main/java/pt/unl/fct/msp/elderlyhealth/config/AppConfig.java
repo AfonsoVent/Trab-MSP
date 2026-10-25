@@ -10,13 +10,18 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 public class AppConfig {
 
-    /** Relógio injetável — permite testar os timers (timeouts) sem esperar tempo real. */
+    /**
+     * Relógio que testa os timers
+     * @return Clock
+     */
     @Bean
     public Clock clock() {
         return Clock.systemDefaultZone();
     }
 
-    /** Liga o agendador que dispara os timers dos BPMN (pode ser desligado nos testes). */
+    /**
+     * Liga o agendador que dispara os timers dos BPMNs
+     */
     @Configuration
     @EnableScheduling
     @ConditionalOnProperty(name = "elderlyhealth.scheduler.ativo", havingValue = "true", matchIfMissing = true)

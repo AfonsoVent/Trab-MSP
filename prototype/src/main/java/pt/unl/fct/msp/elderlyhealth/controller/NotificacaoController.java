@@ -11,7 +11,7 @@ import pt.unl.fct.msp.elderlyhealth.model.Destinatario;
 import pt.unl.fct.msp.elderlyhealth.model.Notificacao;
 import pt.unl.fct.msp.elderlyhealth.service.NotificacaoService;
 
-/** Caixa de mensagens dos participantes (os message flows que saem do CPS). */
+//Caixa de mensagens dos participantes
 @RestController
 @RequestMapping("/api/notificacoes")
 public class NotificacaoController {
@@ -22,7 +22,7 @@ public class NotificacaoController {
         this.servico = servico;
     }
 
-    /** Ex.: GET /api/notificacoes?destinatario=ENFERMEIRO */
+    //Listar notificações
     @GetMapping
     public List<Notificacao> listar(@RequestParam(required = false) Destinatario destinatario,
                                     @RequestParam(required = false) Long idosoId) {

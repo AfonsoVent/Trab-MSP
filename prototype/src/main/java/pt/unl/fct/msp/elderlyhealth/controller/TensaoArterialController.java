@@ -16,7 +16,7 @@ import pt.unl.fct.msp.elderlyhealth.dto.MedicaoTensaoRequest;
 import pt.unl.fct.msp.elderlyhealth.model.MedicaoTensao;
 import pt.unl.fct.msp.elderlyhealth.service.TensaoArterialService;
 
-/** Feature básica 4 — Monitor blood pressure. */
+//Monitorizar tensao arterial
 @RestController
 @RequestMapping("/api/tensao-arterial")
 public class TensaoArterialController {
@@ -27,7 +27,7 @@ public class TensaoArterialController {
         this.servico = servico;
     }
 
-    /** Chamado pelo dispositivo: medição -> analisar -> gateway "Estado da pressão?". */
+    //Validar medicações
     @PostMapping("/medicoes")
     @ResponseStatus(HttpStatus.CREATED)
     public MedicaoTensao registarMedicao(@Valid @RequestBody MedicaoTensaoRequest pedido) {

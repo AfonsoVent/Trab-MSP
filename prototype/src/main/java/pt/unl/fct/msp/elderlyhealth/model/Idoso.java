@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Conta do idoso registada no CPS. */
+//Conta idoso
 public class Idoso implements Entidade {
 
     private Long id;

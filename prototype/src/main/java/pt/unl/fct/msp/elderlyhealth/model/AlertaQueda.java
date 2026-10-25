@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Instância do subprocesso 'Detetar queda'. */
+//Alerta queda
 public class AlertaQueda implements Entidade {
 
     private Long id;

@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import pt.unl.fct.msp.elderlyhealth.repository.Entidade;
 
-/** Contacto familiar confirmado e guardado. */
+//Contacto familiar guardado
 public class ContactoFamiliar implements Entidade {
 
     private Long id;

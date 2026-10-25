@@ -1,8 +1,8 @@
 package pt.unl.fct.msp.elderlyhealth.model;
 
-/** Participantes "black box" dos BPMN: só recebem/enviam informação pedida pelo CPS. */
+//Enumerado que define o destinatório
 public enum Destinatario {
-    UTILIZADOR,   // quem está a fazer o registo / pedido (idoso, familiar ou recepcionista)
+    UTILIZADOR,   // quem faz registo
     IDOSO,
     FAMILIA,
     ENFERMEIRO

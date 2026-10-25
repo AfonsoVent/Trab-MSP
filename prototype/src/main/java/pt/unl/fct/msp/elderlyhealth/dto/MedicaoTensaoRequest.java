@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-/** Enviado pelo dispositivo de medição da tensão arterial. */
+//Enviado por dispositivo que mede a tensao
 public record MedicaoTensaoRequest(
         @NotNull Long idosoId,
         String dispositivoId,
