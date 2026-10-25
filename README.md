@@ -4,4 +4,4 @@ Estrutura:
 
 - No diretório DiagramaDeReq, encontra-se o diagrama de requisitos do projeto, que contempla 12 requisitos funcionais e 4 requisitos não funcionais.
 
-- No diretório XXXX, encontra-se o protótipo do projeto, acompanhado de um ficheiro README com as instruções necessárias para a sua execução e navegação.
+- No diretório prototype, encontra-se o protótipo do projeto, acompanhado de um ficheiro README com as instruções necessárias para a sua execução e navegação.
