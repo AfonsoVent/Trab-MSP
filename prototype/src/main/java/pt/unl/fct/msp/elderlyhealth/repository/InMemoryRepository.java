@@ -8,10 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 
-/**
- * Repositório em memória (protótipo). Para passar a base de dados basta trocar
- * estas classes por interfaces Spring Data JPA com os mesmos métodos.
- */
+//Repositório de dados
 public abstract class InMemoryRepository<T extends Entidade> {
 
     private final Map<Long, T> dados = new ConcurrentHashMap<>();

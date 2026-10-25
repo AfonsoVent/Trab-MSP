@@ -15,12 +15,7 @@ import pt.unl.fct.msp.elderlyhealth.model.EstadoQueda;
 import pt.unl.fct.msp.elderlyhealth.model.Idoso;
 import pt.unl.fct.msp.elderlyhealth.repository.AlertaQuedaRepository;
 
-/**
- * Subprocesso BPMN "Detetar queda":
- * queda detetada pelo sensor -> pedir confirmação ao idoso -> event-based gateway
- * (resposta | 1 minuto sem resposta) -> obter quarto -> alertar enfermeiro
- * -> receber relatório -> registar incidente.
- */
+//Sub-processo detetar queda
 @Service
 public class DetecaoQuedaService {
 
@@ -40,7 +35,7 @@ public class DetecaoQuedaService {
         this.timeoutResposta = timeoutResposta;
     }
 
-    /** Start event "Queda detetada pelo sensor" + send task "Pedir confirmação de ajuda ao idoso". */
+    //Registar queda
     public synchronized AlertaQueda registarQueda(Long idosoId, String sensorId) {
         Idoso idoso = idosos.obter(idosoId);
         AlertaQueda a = new AlertaQueda();
@@ -56,7 +51,7 @@ public class DetecaoQuedaService {
         return a;
     }
 
-    /** Message catch "Resposta do idoso" -> gateway "Ajuda necessária?". */
+    //Resposta do idoso
     public synchronized AlertaQueda responder(Long alertaId, boolean precisaAjuda) {
         AlertaQueda a = procurar(alertaId);
         escalarSeExpirou(a);
@@ -72,7 +67,7 @@ public class DetecaoQuedaService {
         return alertarEnfermeiro(a, false);
     }
 
-    /** Receive task "Receber relatório de atendimento" + service task "Registar incidente". */
+    //registar relatório de incidente
     public synchronized AlertaQueda registarRelatorio(Long alertaId, String enfermeiro, String relatorio) {
         AlertaQueda a = procurar(alertaId);
         escalarSeExpirou(a);
@@ -99,7 +94,7 @@ public class DetecaoQuedaService {
         return alertas.filtrar(a -> estado == null || a.getEstado() == estado);
     }
 
-    /** Timer "1 minuto sem resposta" (chamado periodicamente pelo TimeoutScheduler). */
+    //Timer 1 minuto
     public synchronized void escalarSemResposta() {
         alertas.todos().forEach(this::escalarSeExpirou);
     }
@@ -111,7 +106,7 @@ public class DetecaoQuedaService {
         }
     }
 
-    /** "Obter quarto e dados do idoso" + send task "Alertar enfermeiro". */
+    //Recolher informações de idoso e notificar enfermeiro
     private AlertaQueda alertarEnfermeiro(AlertaQueda a, boolean porTimeout) {
         Idoso idoso = idosos.obter(a.getIdosoId());
         a.setQuarto(idoso.getQuarto());

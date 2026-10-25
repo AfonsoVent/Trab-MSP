@@ -21,11 +21,7 @@ import pt.unl.fct.msp.elderlyhealth.model.Preferencias;
 import pt.unl.fct.msp.elderlyhealth.repository.IdosoRepository;
 import pt.unl.fct.msp.elderlyhealth.repository.PedidoRegistoRepository;
 
-/**
- * Subprocesso BPMN "Registar conta do idoso":
- * pedir dados -> validar (NIF) -> [paralelo] pedir preferências + pedir contacto de emergência
- * -> validar contacto -> registar idoso. Timer de 20 minutos sobre todo o subprocesso.
- */
+//Registar idoso
 @Service
 public class RegistoContaService {
 
@@ -45,7 +41,7 @@ public class RegistoContaService {
         this.timeout = timeout;
     }
 
-    /** Início do subprocesso + send task "Requisitar informação do idoso". */
+    //Iniciar sub-processo
     public synchronized PedidoRegisto iniciar(CanalRegisto canal) {
         PedidoRegisto p = new PedidoRegisto();
         p.setCanal(canal == null ? CanalRegisto.RECEPCIONISTA : canal);
@@ -57,7 +53,7 @@ public class RegistoContaService {
         return p;
     }
 
-    /** Receber dados -> "Validar dados recebidos" -> gateway OK / Não OK. */
+    //Submeter dados (se forem validos)
     public synchronized PedidoRegisto submeterDados(Long id, DadosIdoso dados) {
         PedidoRegisto p = obterAtivo(id, EstadoRegisto.AGUARDA_DADOS);
         String nif = ValidadorDados.normalizar(dados.nif());
@@ -71,13 +67,13 @@ public class RegistoContaService {
                 dados.informacaoMedica(), dados.quarto()));
         p.setEstado(EstadoRegisto.AGUARDA_PREFERENCIAS_E_CONTACTO);
         tocar(p);
-        // Gateway paralelo: os dois pedidos são enviados ao mesmo tempo
+
         notificar(p, "Envie as preferências do idoso (dieta, alergias, observações)");
         notificar(p, "Envie o contacto de emergência do idoso");
         return p;
     }
 
-    /** Ramo paralelo 1: receber preferências. */
+    //Receber preferencias alimentares
     public synchronized PedidoRegisto submeterPreferencias(Long id, Preferencias preferencias) {
         PedidoRegisto p = obterAtivo(id, EstadoRegisto.AGUARDA_PREFERENCIAS_E_CONTACTO);
         p.setPreferencias(new Preferencias(preferencias.dieta(),
@@ -87,7 +83,7 @@ public class RegistoContaService {
         return concluirSePossivel(p);
     }
 
-    /** Ramo paralelo 2: receber contacto de emergência -> validar -> gateway OK / Não OK. */
+    //Submeter contacto de emergencia
     public synchronized PedidoRegisto submeterContactoEmergencia(Long id, ContactoEmergencia contacto) {
         PedidoRegisto p = obterAtivo(id, EstadoRegisto.AGUARDA_PREFERENCIAS_E_CONTACTO);
         if (!ValidadorDados.telefoneValido(contacto.telefone())) {
@@ -110,12 +106,12 @@ public class RegistoContaService {
         return pedidos.todos();
     }
 
-    /** Boundary timer de 20 minutos (chamado periodicamente pelo TimeoutScheduler). */
+    //Timer de 20 minutos
     public synchronized void expirarPendentes() {
         pedidos.todos().forEach(this::verificarExpiracao);
     }
 
-    /** Gateway paralelo de junção: só regista quando os dois ramos chegaram. */
+
     private PedidoRegisto concluirSePossivel(PedidoRegisto p) {
         if (p.getPreferencias() == null || p.getContactoEmergencia() == null) {
             return p;

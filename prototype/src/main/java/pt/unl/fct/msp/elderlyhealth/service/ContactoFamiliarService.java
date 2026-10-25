@@ -20,11 +20,7 @@ import pt.unl.fct.msp.elderlyhealth.model.PedidoContactoFamiliar;
 import pt.unl.fct.msp.elderlyhealth.repository.ContactoFamiliarRepository;
 import pt.unl.fct.msp.elderlyhealth.repository.PedidoContactoRepository;
 
-/**
- * Subprocesso BPMN "Adicionar contacto familiar":
- * receber contacto -> validar contacto + pedir confirmação ao utilizador
- * -> event-based gateway (confirmação | 1 minuto) -> guardar contacto -> notificar.
- */
+//Sub-processo "Adicionar Contacto Familiar"
 @Service
 public class ContactoFamiliarService {
 
@@ -46,7 +42,7 @@ public class ContactoFamiliarService {
         this.timeoutConfirmacao = timeoutConfirmacao;
     }
 
-    /** Receber contacto -> "Validar contacto familiar" -> gateway "É válido?" -> pedir confirmação. */
+    //Receber contacto
     public synchronized PedidoContactoFamiliar pedirAdicao(Long idosoId, DadosContactoFamiliar dados) {
         Idoso idoso = idosos.obter(idosoId);
         String telefone = ValidadorDados.normalizarTelefone(dados.telefone());
@@ -77,7 +73,7 @@ public class ContactoFamiliarService {
         return p;
     }
 
-    /** Event-based gateway: chegou a confirmação antes do timer. */
+    //Confimarção
     public synchronized PedidoContactoFamiliar confirmar(Long idosoId, Long pedidoId, boolean confirmado) {
         PedidoContactoFamiliar p = procurar(idosoId, pedidoId);
         verificarExpiracao(p);
@@ -95,7 +91,7 @@ public class ContactoFamiliarService {
             return p;
         }
 
-        // Parallel gateway de junção: contacto válido + confirmado -> "Guardar contacto familiar"
+        //Guardar contacto
         DadosContactoFamiliar d = p.getDados();
         ContactoFamiliar c = new ContactoFamiliar();
         c.setIdosoId(idosoId);
@@ -126,7 +122,7 @@ public class ContactoFamiliarService {
         return contactos.filtrar(c -> c.getIdosoId().equals(idosoId));
     }
 
-    /** Timer de 1 minuto do event-based gateway. */
+    //Timer de 1 minuto
     public synchronized void expirarPendentes() {
         pedidos.todos().forEach(this::verificarExpiracao);
     }

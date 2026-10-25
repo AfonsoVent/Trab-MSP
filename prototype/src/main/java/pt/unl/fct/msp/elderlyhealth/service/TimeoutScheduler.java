@@ -3,7 +3,7 @@ package pt.unl.fct.msp.elderlyhealth.service;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-/** Dispara os timers dos BPMN (20 min registo, 1 min confirmação de contacto, 1 min resposta à queda). */
+//Dispara os timers
 @Component
 public class TimeoutScheduler {
 

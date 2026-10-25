@@ -11,11 +11,7 @@ import pt.unl.fct.msp.elderlyhealth.model.Destinatario;
 import pt.unl.fct.msp.elderlyhealth.model.Notificacao;
 import pt.unl.fct.msp.elderlyhealth.repository.NotificacaoRepository;
 
-/**
- * Representa os message flows do CPS para os participantes "black box"
- * (idoso, família, enfermeiro). No protótipo ficam guardadas e podem ser lidas
- * por GET /api/notificacoes; mais tarde podem ir por push/SMS/e-mail.
- */
+//Notificações entre participantes
 @Service
 public class NotificacaoService {
 
